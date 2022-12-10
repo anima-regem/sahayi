@@ -5,72 +5,57 @@ import 'dart:io';
 import 'package:open_file/open_file.dart';
 import './data_variables.dart';
 
-class OpenPDF extends StatefulWidget {
+class OpenPDF {
   final int moduleNo;
   final int indexNo;
-  const OpenPDF({super.key, required this.moduleNo, required this.indexNo});
 
-  @override
-  State<OpenPDF> createState() => _OpenPDFState();
-}
+  OpenPDF(
+      {required BuildContext context,
+      required this.moduleNo,
+      required this.indexNo}) {
+    PDFOpen(context);
+  }
 
-class _OpenPDFState extends State<OpenPDF> {
+  bool isDownloaded = false;
   void downloadFile(String url, String fileName) async {
     print('REadched dwnld');
-    if (await checkFile(fileName)) {
-      Directory dirPath = await getApplicationDocumentsDirectory();
-      String fileFullPath = dirPath.path + fileName;
-      OpenFile.open(fileFullPath);
+    Directory dirPath = await getApplicationDocumentsDirectory();
+    File file = File('${dirPath.path}/$fileName');
+    if (await file.exists()) {
+      OpenFile.open(file.path);
       return;
     }
     try {
       String urlPath = url + fileName;
-      print(urlPath);
       Dio dio = Dio();
       Response response = await dio.get(
         urlPath,
-        onReceiveProgress: (rec, total) => (print("${(rec / total) * 100}%")),
-        //Received data with List<int>
+        onReceiveProgress: (count, total) =>
+            {print(((count / total) * 100).toStringAsFixed(0))},
         options: Options(
             responseType: ResponseType.bytes,
-            followRedirects: false,
+            followRedirects: true,
+            sendTimeout: 100000,
+            receiveTimeout: 100000,
             validateStatus: (status) {
               return status! < 500;
             }),
       );
-      print(response.headers);
-      File file = File(fileName);
-      var raf = file.openSync(mode: FileMode.write);
-      raf.writeFromSync(response.data);
-      await raf.close();
-      Directory dirPath = await getApplicationDocumentsDirectory();
-      String fileFullPath = dirPath.path + fileName;
-      OpenFile.open(fileFullPath);
+      if (!await file.exists()) {
+        await file.create(recursive: true);
+      }
+      await file.writeAsBytes(response.data);
+      OpenFile.open(file.path);
     } catch (e) {
-      print(e);
+      // print(e);
     }
   }
 
-  Future<bool> checkFile(String fileName) async {
-    print('checkfile');
-    Directory dirPath = await getApplicationDocumentsDirectory();
-    if (await File('${dirPath.path}/$fileName').exists()) {
-      print('file found');
-      return true;
-    } else {
-      print('not found');
-      return false;
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    String fileName = data[widget.indexNo]['code'] +
+  void PDFOpen(BuildContext context) {
+    final String fileName = data[indexNo]['code'] +
         '/' +
-        "M${data[widget.indexNo]['modules'][widget.moduleNo]}.pdf";
-    print(baseURL);
-    print(fileName);
+        "M${data[indexNo]['modules'][moduleNo]}.pdf";
     downloadFile(baseURL, fileName);
-    return Container();
+    // showAlertDialog(context);
   }
 }

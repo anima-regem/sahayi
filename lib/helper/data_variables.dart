@@ -5,7 +5,7 @@ const List<Map<String, dynamic>> data = [
     "modules": [1, 2, 3, 4, 5, 6]
   },
   {
-    "name": "BME 7 BCE",
+    "name": "BME & BCE",
     "code": "bmeAndBce",
     "modules": [1, 2, 3, 4, 5, 6]
   },
@@ -27,7 +27,7 @@ const List<Map<String, dynamic>> data = [
   {
     "name": "Maths 101 (S1)",
     "code": "mat101",
-    "modules": [1, 2, 3, 4, 5]
+    "modules": [1]
   },
   {
     "name": "Maths 102 (S2)",
@@ -37,7 +37,7 @@ const List<Map<String, dynamic>> data = [
   {
     "name": "Professional Communication",
     "code": "pc",
-    "modules": [1, 2, 3, 4, 5]
+    "modules": [1, 2, 3, 4]
   },
   {
     "name": "Physics A",
@@ -47,7 +47,7 @@ const List<Map<String, dynamic>> data = [
   {
     "name": "Physics B",
     "code": "phyB",
-    "modules": [1, 2, 3, 4, 5]
+    "modules": [1]
   }
 ];
 
