@@ -86,17 +86,7 @@ class ModulesPage extends StatelessWidget {
               ),
               const Divider(),
               const SizedBox(height: 10),
-              ListTile(
-                  leading: Icon(Icons.list),
-                  title: Text("Syllabus"),
-                  trailing: const Icon(Icons.arrow_right_sharp),
-                  onTap: () {
-                    OpenPDF(
-                      context: context,
-                      moduleNo: 100,
-                      indexNo: dataIndex,
-                    );
-                  }),
+              ListView(),
               Expanded(
                 child: ListView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: 20),

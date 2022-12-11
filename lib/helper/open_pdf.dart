@@ -16,9 +16,7 @@ class OpenPDF {
     PDFOpen(context);
   }
 
-  bool isDownloaded = false;
   void downloadFile(String url, String fileName) async {
-    print('REadched dwnld');
     Directory dirPath = await getApplicationDocumentsDirectory();
     File file = File('${dirPath.path}/$fileName');
     if (await file.exists()) {
@@ -27,6 +25,7 @@ class OpenPDF {
     }
     try {
       String urlPath = url + fileName;
+      print(urlPath);
       Dio dio = Dio();
       Response response = await dio.get(
         urlPath,
@@ -52,10 +51,14 @@ class OpenPDF {
   }
 
   void PDFOpen(BuildContext context) {
-    final String fileName = data[indexNo]['code'] +
-        '/' +
-        "M${data[indexNo]['modules'][moduleNo]}.pdf";
-    downloadFile(baseURL, fileName);
-    // showAlertDialog(context);
+    if (!(moduleNo == 100)) {
+      final String fileName = data[indexNo]['code'] +
+          '/' +
+          "M${data[indexNo]['modules'][moduleNo]}.pdf";
+      downloadFile(baseURL, fileName);
+    } else {
+      final String fileName = data[indexNo]['code'] + '/' + "syllabus.pdf";
+      downloadFile(baseURL, fileName);
+    }
   }
 }
