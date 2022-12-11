@@ -35,9 +35,17 @@ class _AboutPageState extends State<AboutPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                const Text("Feel free to contribute to the project!"),
-                const SelectableText("https://github.com/anima-regem/sahayi"),
-                Icon(Icons.favorite)
+                Text(
+                  "SFI GEC Palakkad",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.red.shade600),
+                ),
+                Text("Feel free to contribute to the project!"),
+                SelectableText("https://github.com/anima-regem/sahayi"),
+                Icon(
+                  Icons.favorite,
+                  color: Colors.red,
+                )
               ]),
         ));
   }
